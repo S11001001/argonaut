@@ -3,7 +3,7 @@ import Keys._
 import Tools.onVersionTask
 
 object ScalaSettings {
-  type Sett = Project.Setting[_]
+  type Sett = Def.Setting[_]
 
   lazy val all: Seq[Sett] = Seq(
     scalaVersion := "2.10.1"

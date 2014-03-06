@@ -9,7 +9,7 @@ import com.typesafe.tools.mima.plugin.MimaKeys.previousArtifact
 import com.typesafe.tools.mima.plugin.MimaKeys.binaryIssueFilters
 
 object build extends Build {
-  type Sett = Project.Setting[_]
+  type Sett = Def.Setting[_]
 
   val base = Defaults.defaultSettings ++ ScalaSettings.all ++ Seq[Sett](
       organization := "io.argonaut"
@@ -54,7 +54,7 @@ object build extends Build {
       name := "argonaut-benchmark"
     , fork in run := true
     , libraryDependencies ++= Seq(caliper, liftjson, jackson)
-    , javaOptions in run <++= (fullClasspath in Runtime) map { cp => Seq("-cp", sbt.Build.data(cp).mkString(":")) }
+    , javaOptions in run <++= (fullClasspath in Runtime) map { cp => Seq("-cp", Attributed.data(cp).mkString(":")) }
     )
   )
 
