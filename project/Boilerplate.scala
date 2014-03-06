@@ -31,11 +31,11 @@ object Boilerplate {
 
   def tupleFields(arity: Int): String = (1 to arity).map(n => "x._" + n).mkString(", ")
 
-  def listPatternMatch(arity: Int): String = ((1 to arity).map(n => "c" + arityChars(n).toLowerCase).toList ::: "Nil" :: Nil).mkString(" :: ")
+  def listPatternMatch(arity: Int): String = ((1 to arity).map(n => "c" + arityChars(n).toLower).toList ::: "Nil" :: Nil).mkString(" :: ")
 
-  def jsonStringParams(arity: Int): String = (1 to arity).map(n => "%sn: JsonString".format(arityChars(n).toLowerCase)).mkString(", ")
+  def jsonStringParams(arity: Int): String = (1 to arity).map(n => "%sn: JsonString".format(arityChars(n).toLower)).mkString(", ")
 
-  def jsonStringParamNames(arity: Int): String = (1 to arity).map(n => "%sn".format(arityChars(n).toLowerCase)).mkString(", ")
+  def jsonStringParamNames(arity: Int): String = (1 to arity).map(n => "%sn".format(arityChars(n).toLower)).mkString(", ")
 
 
   def genDecodeJsons = {
@@ -43,17 +43,17 @@ object Boilerplate {
 
     def decodeJsonParams(n: Int): String = (1 to n).map{n =>
       val char = arityChars(n)
-      "decode%s: DecodeJson[%s]".format(char.toLowerCase, char)
+      "decode%s: DecodeJson[%s]".format(char.toLower, char)
     }.mkString(", ")
 
     def content = {
       val tupleDecodes = aritiesExceptOne.map{arity =>
         val forComprehensionLines: String = (1 to arity).map{n =>
           val char = arityChars(n)
-          "          x%s <- decode%s(c%s)".format(char.toLowerCase, char.toLowerCase, char.toLowerCase)
+          "          x%s <- decode%s(c%s)".format(char.toLower, char.toLower, char.toLower)
         }.mkString("\n")
 
-        val yieldResult = (1 to arity).map(n => "x" + arityChars(n).toLowerCase).mkString(", ")
+        val yieldResult = (1 to arity).map(n => "x" + arityChars(n).toLower).mkString(", ")
 
         """|
            |  implicit def Tuple%sDecodeJson[%s](implicit %s): DecodeJson[(%s)] =
@@ -107,12 +107,12 @@ object Boilerplate {
       val jdecodeLs = aritiesExceptOne.map{arity =>
         val forComprehensionLines: String = (1 to arity).map{n =>
           val upperChar = arityChars(n)
-          val lowerChar = upperChar.toLowerCase
+          val lowerChar = upperChar.toLower
           "       %s%s <- x.get[%s](%sn)".format(lowerChar, lowerChar, upperChar, lowerChar)
         }.mkString("\n")
 
         val yieldExpression: String = (1 to arity).map{n =>
-          val lowerChar = arityChars(n).toLowerCase
+          val lowerChar = arityChars(n).toLower
           "%s%s".format(lowerChar, lowerChar)
         }.mkString(", ")
 
@@ -148,11 +148,11 @@ object Boilerplate {
 
     def encodeJsonParams(n: Int): String = (1 to n).map{n =>
       val char = arityChars(n)
-      "encode%s: EncodeJson[%s]".format(char.toLowerCase, char)
+      "encode%s: EncodeJson[%s]".format(char.toLower, char)
     }.mkString(", ")
 
     def invokeEncodeJsonParams(n: Int): String = (1 to n).map{n =>
-      val char = arityChars(n).toLowerCase
+      val char = arityChars(n).toLower
       "encode%s(%s)".format(char, char)
     }.mkString(", ")
 
@@ -199,7 +199,7 @@ object Boilerplate {
       val jencodeLs = aritiesExceptOne.map{arity =>
         val encodePairs = (1 to arity).map{n =>
           val upperChar = arityChars(n)
-          val lowerChar = upperChar.toLowerCase
+          val lowerChar = upperChar.toLower
           "(%sn, encode%s.apply(%s))".format(lowerChar, lowerChar, lowerChar)
         }.mkString(", ")
 
